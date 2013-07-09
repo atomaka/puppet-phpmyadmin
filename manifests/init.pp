@@ -68,6 +68,7 @@ inherits phpmyadmin::params
       },
       target    => $phpmyadmin::params::apache_default_config,
       require   => File[$phpmyadmin::params::apache_default_config],
+      notify    => Service['apache2'],
     }
   }
 }
