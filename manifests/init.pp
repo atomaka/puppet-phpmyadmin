@@ -59,5 +59,16 @@ inherits phpmyadmin::params
     require => Package[$phpmyadmin::params::package_name],
   }
 
+  #Symlink to default config file for phpmyadmin
+  if $::osfamily == 'Debian' {
+    file { "${phpmyadmin::params::site_enable_dir}/phpmyadmin.conf":
+      ensure    => $enabled ? {
+        'true'    => 'link',
+        default   => 'absent',
+      },
+      target    => $phpmyadmin::params::apache_default_config,
+      require   => File[$phpmyadmin::params::apache_default_config],
+    }
+  }
 }
 
